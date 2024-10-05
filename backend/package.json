@@ -5,16 +5,18 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-  "start": "npx prisma migrate deploy && npx prisma generate && node index.js",
-  "dev": "npx prisma migrate dev && npx prisma generate && nodemon index.js",
-  "studio": "npx prisma studio",
-  "test": "echo \"Error: no test specified\" && exit 1"
-},
+    "start": "npx prisma migrate deploy && npx prisma generate && node index.js",
+    "dev": "npx prisma migrate dev && npx prisma generate && nodemon index.js",
+    "studio": "npx prisma studio",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.20.0",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",

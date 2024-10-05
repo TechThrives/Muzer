@@ -14,22 +14,47 @@ datasource db {
 }
 
 model User {
-  id          Int      @id @default(autoincrement())
-  name        String
-  email       String
+  id       String   @id @default(uuid())
+  email    String @unique
+  password String // Store hashed passwords
+  rooms    Room[] // Rooms created by the user
+  votes    Vote[] // Votes cast by the user
+  songs    Song[] // Songs added by the user (limit 2 per room)
 }
 
 model Room {
-  id          Int      @id @default(autoincrement())
-  code        String   @unique
-  songs       Song[]
+  id            String   @id @default(uuid())
+  code          String   @unique // Unique room code
+  hostId        String
+  host          User     @relation(fields: [hostId], references: [id])
+  currentSongId String?
+  currentSong   Song?    @relation("CurrentSong", fields: [currentSongId], references: [id])
+  songs         Song[]   @relation("RoomSongs")
+  createdAt     DateTime @default(now())
 }
 
 model Song {
-  id          Int      @id @default(autoincrement())
-  title       String
-  artist      String
-  votes       Int      @default(0)
-  roomId      Int
-  room        Room     @relation(fields: [roomId], references: [id])
+  id           String   @id @default(uuid())
+  title        String
+  artist       String
+  url          String // Path to the song file
+  rooms        Room[]   @relation("RoomSongs")
+  currentRooms Room[]   @relation("CurrentSong")
+  addedById    String
+  addedBy      User     @relation(fields: [addedById], references: [id])
+  votes        Vote[]
+  createdAt    DateTime @default(now())
+  voteCount    Int      @default(0) // Track votes
+}
+
+model Vote {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  songId    String
+  song      Song     @relation(fields: [songId], references: [id])
+  value     Int // -1 for downvote, 1 for upvote
+  createdAt DateTime @default(now())
+
+  @@unique([userId, songId]) // One vote per user per song
 }
