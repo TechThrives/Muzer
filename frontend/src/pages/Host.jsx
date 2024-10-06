@@ -1,28 +1,9 @@
-import { useState, useEffect } from "react";
-import { useSocket } from "../context/SocketContext";
 import { useParams } from "react-router-dom";
+import useRoom from "../hooks/useRoom";
 
 const Host = () => {
-  const { socket } = useSocket();
   const { roomCode } = useParams();
-  const [songs, setSongs] = useState([]);
-  const [currentSong, setCurrentSong] = useState(null);
-
-  useEffect(() => {
-    // Fetch initial data like song list when the component loads
-    socket.on("roomData", (room) => {
-      setSongs(room.songs);
-      setCurrentSong(room.currentSong);
-    });
-
-    return () => {
-      socket.off("roomData");
-    };
-  }, [socket]);
-
-  useEffect(() => {
-    socket.emit("getRoom", { roomCode });
-  }, [roomCode]);
+  const { songs, currentSong } = useRoom(roomCode);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
@@ -58,30 +39,18 @@ const Host = () => {
           <h2 className="text-2xl mb-4">Playlist</h2>
           <ul className="space-y-4">
             {songs.map((song) => (
-              <li
-                key={song.id}
-                className="bg-gray-800 p-4 rounded-lg flex justify-between items-center"
-              >
+              <li key={song.id} className="bg-gray-800 p-4 rounded-lg flex justify-between items-center">
                 <div>
                   <h3 className="text-xl font-semibold">{song.title}</h3>
                   <p>{song.artist}</p>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <button className="bg-green-500 hover:bg-green-600 px-4 py-2 rounded">
-                    Upvote
-                  </button>
-                  <button className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded">
-                    Downvote
-                  </button>
-                  <span className="text-lg font-semibold">
-                    {song.voteCount}
-                  </span>
+                  <span className="text-lg font-semibold">{song.voteCount}</span>
                 </div>
               </li>
             ))}
           </ul>
         </div>
-
       </div>
     </div>
   );

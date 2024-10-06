@@ -1,6 +1,5 @@
 import express from "express";
 import serverConfig from "./config/serverConfig.js";
-import prisma from "./config/prismaConfig.js";
 import { Server } from "socket.io";
 import http from "http";
 import cors from "cors";
@@ -15,8 +14,8 @@ import roomHandler from "./handlers/roomHandler.js";
 const app = express();
 
 const corsOptions = {
-  credentials: true,
   origin: process.env.FRONTEND_URL,
+  credentials: true,
 };
 
 const server = http.createServer(app);
@@ -25,8 +24,8 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: process.env.FRONTEND_URL,
-    methods: ["GET", "POST"],
     credentials: true,
+    methods: ["GET", "POST"],
   },
 });
 

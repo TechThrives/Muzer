@@ -19,8 +19,6 @@ import React, {
   
   // Context provider component
   export const SocketProvider = ({ children }) => {
-    const navigate = useNavigate();
-  
     const [user, setUser] = useState({email:"", password:""});
   
     useEffect(() => {
@@ -34,15 +32,7 @@ import React, {
         notify(200, message);
       });
   
-      socket.on("roomCreated", (room) => {
-        console.log("New room created", room);
-        navigate(`/host/${room.code}`);
-      });
-  
-      socket.emit("ready");
-  
       return () => {
-        socket.off("roomCreated");
         socket.off("error");
         socket.off("success");
       };

@@ -1,44 +1,20 @@
-import { useState, useEffect } from "react";
-import { useSocket } from "../context/SocketContext";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+import useRoom from "../hooks/useRoom";
 
 const Room = () => {
-  const { socket } = useSocket();
   const { roomCode } = useParams();
-  const [songs, setSongs] = useState([]);
+  const { songs, currentSong, handleVote, addSong } = useRoom(roomCode);
   const [newSong, setNewSong] = useState({
     url: "http://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3",
+    title: "Kangaroo",
+    artist: "MusiQue",
     addedById: "51c5e434-9302-4de1-ad85-a3f5cef20bef",
   });
-  const [currentSong, setCurrentSong] = useState(null);
-
-  useEffect(() => {
-    socket.on("roomData", (room) => {
-      console.log(room);
-      setSongs(room.songs);
-      setCurrentSong(room.currentSong);
-    });
-
-    return () => {
-      socket.off("roomData");
-    };
-  }, [socket]);
-
-  useEffect(() => {
-    socket.emit("joinRoom", { roomCode });
-
-    return () => {
-      socket.off("joinRoom");
-    };
-  }, [roomCode]);
-
-  const handleVote = (songId, value) => {
-    socket.emit("voteSong", { songId, value });
-  };
 
   const handleAddSong = (e) => {
     e.preventDefault();
-    socket.emit("addSong", { roomCode, newSong });
+    addSong({ roomCode, newSong });
     // setNewSong({ url: "" });
   };
 
@@ -48,7 +24,6 @@ const Room = () => {
         {/* Header */}
         <header className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold">Room</h1>
-          
         </header>
 
         {/* Current Song (Music Player) */}
@@ -56,9 +31,6 @@ const Room = () => {
           <h2 className="text-2xl mb-4">Now Playing</h2>
           {currentSong ? (
             <div className="flex items-center">
-              <div className="mr-6">
-                <audio controls autoPlay src={currentSong.url} />
-              </div>
               <div>
                 <h3 className="text-xl font-semibold">{currentSong.title}</h3>
                 <p>{currentSong.artist}</p>
@@ -74,30 +46,19 @@ const Room = () => {
           <h2 className="text-2xl mb-4">Playlist</h2>
           <ul className="space-y-4">
             {songs.map((song) => (
-              <li
-                key={song.id}
-                className="bg-gray-800 p-4 rounded-lg flex justify-between items-center"
-              >
+              <li key={song.id} className="bg-gray-800 p-4 rounded-lg flex justify-between items-center">
                 <div>
                   <h3 className="text-xl font-semibold">{song.title}</h3>
                   <p>{song.artist}</p>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <button
-                    className="bg-green-500 hover:bg-green-600 px-4 py-2 rounded"
-                    onClick={() => handleVote(song.id, 1)}
-                  >
+                  <button className="bg-green-500 hover:bg-green-600 px-4 py-2 rounded" onClick={() => handleVote(song.id, 1)}>
                     Upvote
                   </button>
-                  <button
-                    className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded"
-                    onClick={() => handleVote(song.id, -1)}
-                  >
+                  <button className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded" onClick={() => handleVote(song.id, -1)}>
                     Downvote
                   </button>
-                  <span className="text-lg font-semibold">
-                    {song.voteCount}
-                  </span>
+                  <span className="text-lg font-semibold">{song.voteCount}</span>
                 </div>
               </li>
             ))}
@@ -114,16 +75,11 @@ const Room = () => {
                 type="url"
                 className="w-full px-4 py-2 rounded bg-gray-700 border border-gray-600"
                 value={newSong.url}
-                onChange={(e) =>
-                  setNewSong({ ...newSong, url: e.target.value })
-                }
+                onChange={(e) => setNewSong({ ...newSong, url: e.target.value })}
                 required
               />
             </div>
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded w-full"
-            >
+            <button type="submit" className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded w-full">
               Add Song
             </button>
           </form>

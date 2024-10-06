@@ -15,11 +15,11 @@ datasource db {
 
 model User {
   id       String   @id @default(uuid())
-  email    String @unique
-  password String // Store hashed passwords
-  rooms    Room[] // Rooms created by the user
-  votes    Vote[] // Votes cast by the user
-  songs    Song[] // Songs added by the user (limit 2 per room)
+  email    String   @unique
+  password String   // Store hashed passwords
+  rooms    Room[]   // Rooms created by the user
+  votes    Vote[]   // Votes cast by the user
+  songs    Song[]   // Songs added by the user (limit 2 per room)
 }
 
 model Room {
@@ -37,7 +37,7 @@ model Song {
   id           String   @id @default(uuid())
   title        String
   artist       String
-  url          String // Path to the song file
+  url          String   // Path to the song file
   rooms        Room[]   @relation("RoomSongs")
   currentRooms Room[]   @relation("CurrentSong")
   addedById    String
@@ -53,7 +53,7 @@ model Vote {
   user      User     @relation(fields: [userId], references: [id])
   songId    String
   song      Song     @relation(fields: [songId], references: [id])
-  value     Int // -1 for downvote, 1 for upvote
+  value     Int      // -1 for downvote, 1 for upvote
   createdAt DateTime @default(now())
 
   @@unique([userId, songId]) // One vote per user per song
