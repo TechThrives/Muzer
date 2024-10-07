@@ -37,14 +37,17 @@ model Song {
   id           String   @id @default(uuid())
   title        String
   artist       String
-  url          String   // Path to the song file
+  src          String   // Path to the song file
+  thumbnail    String   @default("https://www.teachhub.com/wp-content/uploads/2019/10/Our-Top-10-Songs-About-School-768x569.png")// Path to the thumbnail
+  isPlaying    Boolean  @default(true)
+  timeProgress Int      @default(0)
   rooms        Room[]   @relation("RoomSongs")
   currentRooms Room[]   @relation("CurrentSong")
   addedById    String
   addedBy      User     @relation(fields: [addedById], references: [id])
   votes        Vote[]
   createdAt    DateTime @default(now())
-  voteCount    Int      @default(0) // Track votes
+  voteCount    Int      @default(0) // Song votes
 }
 
 model Vote {

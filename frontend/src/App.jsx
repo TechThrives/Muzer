@@ -5,20 +5,19 @@ import ToastContainer from "./components/ToastContainer";
 import Home from "./pages/Home";
 import Host from "./pages/Host";
 import Room from "./pages/Room";
-import { SocketProvider } from "./context/SocketContext";
+import ContextWrapper from "./context/ContextWrapper";
 
 function App() {
   return (
     <Router>
-      {" "}
-      <SocketProvider>
+      <ContextWrapper>
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/host/:roomCode" element={<Host />} />
           <Route path="/room/:roomCode" element={<Room />} />
         </Routes>
-      </SocketProvider>
+      </ContextWrapper>
     </Router>
   );
 }

@@ -1,21 +1,23 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import useRoom from "../hooks/useRoom";
+import { useAudioPlayer } from "../context/AudioPlayerContext";
 
 const Room = () => {
   const { roomCode } = useParams();
-  const { songs, currentSong, handleVote, addSong } = useRoom(roomCode);
+  const { songs, handleVote, addSong } = useRoom(roomCode);
+  const { currentSong } = useAudioPlayer();
   const [newSong, setNewSong] = useState({
-    url: "http://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3",
+    src: "http://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3",
     title: "Kangaroo",
     artist: "MusiQue",
-    addedById: "51c5e434-9302-4de1-ad85-a3f5cef20bef",
+    addedById: "06e691f7-e80c-40f4-8b8d-ac180d37ebba",
   });
 
   const handleAddSong = (e) => {
     e.preventDefault();
     addSong({ roomCode, newSong });
-    // setNewSong({ url: "" });
+    // setNewSong({ src: "" });
   };
 
   return (
@@ -74,8 +76,8 @@ const Room = () => {
               <input
                 type="url"
                 className="w-full px-4 py-2 rounded bg-gray-700 border border-gray-600"
-                value={newSong.url}
-                onChange={(e) => setNewSong({ ...newSong, url: e.target.value })}
+                value={newSong.src}
+                onChange={(e) => setNewSong({ ...newSong, src: e.target.value })}
                 required
               />
             </div>

@@ -10,6 +10,7 @@ import roomRoutes from "./routes/roomRoutes.js";
 
 //Handlers
 import roomHandler from "./handlers/roomHandler.js";
+import songHandler from "./handlers/songHandler.js";
 
 const app = express();
 
@@ -34,6 +35,7 @@ io.on("connection", (socket) => {
 
   //Handlers
   roomHandler(io, socket);
+  songHandler(io, socket);
   
   socket.on("disconnect", () => {
     console.log("User disconnected");

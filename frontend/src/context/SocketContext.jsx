@@ -5,7 +5,6 @@ import React, {
     useState,
   } from "react";
   import SocketIoClient from "socket.io-client";
-  import { useNavigate } from "react-router-dom";
   import { notify } from "../services/toastService";
   
   // Create the context
@@ -53,5 +52,13 @@ import React, {
   
   // Custom hook to use the Socket context
   export const useSocket = () => {
-    return useContext(SocketContext);
+    const context = useContext(SocketContext);
+
+    if (context === undefined) {
+      throw new Error(
+        'useSocket must be used within a SocketProvider'
+      );
+    }
+    
+    return context;
   };

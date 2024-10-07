@@ -1,9 +1,12 @@
 import { useParams } from "react-router-dom";
 import useRoom from "../hooks/useRoom";
+import AudioPlayer from "../components/AudioPlayer";
+import { useAudioPlayer } from "../context/AudioPlayerContext";
 
 const Host = () => {
   const { roomCode } = useParams();
-  const { songs, currentSong } = useRoom(roomCode);
+  const { songs } = useRoom(roomCode);
+  const { currentSong } = useAudioPlayer();
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
@@ -22,7 +25,7 @@ const Host = () => {
           {currentSong ? (
             <div className="flex items-center">
               <div className="mr-6">
-                <audio controls autoPlay src={currentSong.url} />
+              <AudioPlayer />
               </div>
               <div>
                 <h3 className="text-xl font-semibold">{currentSong.title}</h3>

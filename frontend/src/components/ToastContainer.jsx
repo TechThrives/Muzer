@@ -1,4 +1,3 @@
-import React from "react";
 import { Toaster as TContainer } from "react-hot-toast";
 
 const ToastContainer = () => {

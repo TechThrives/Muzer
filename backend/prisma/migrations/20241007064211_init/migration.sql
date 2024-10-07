@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Song" ADD COLUMN     "isPlaying" BOOLEAN NOT NULL DEFAULT true,
+ADD COLUMN     "timeProgress" INTEGER NOT NULL DEFAULT 0;

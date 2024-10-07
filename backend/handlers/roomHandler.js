@@ -114,7 +114,7 @@ const roomHandler = (io, socket) => {
       // Add the new song to the database
       const song = await prisma.song.create({
         data: {
-          url: newSong.url,
+          src: newSong.src,
           title: newSong.title,
           artist: newSong.artist,
           addedById: newSong.addedById,
