@@ -21,38 +21,19 @@ const Controls = () => {
     setCurrentSong,
     isPlaying,
     setIsPlaying,
+    isUserInteracted,
   } = useAudioPlayer();
 
   const { socket } = useSocket();
 
-  const [isUserInteracted, setIsUserInteracted] = useState(false);
-
   const updateSong = () => {
-    socket.emit("updateSong",
-     {
-        songId: currentSong.id,
-        isPlaying,
-        timeProgress: parseInt(timeProgress),
-        roomCode: "abc"
+    socket.emit("updateSong", {
+      songId: currentSong.id,
+      isPlaying,
+      timeProgress: parseInt(timeProgress),
+      roomCode: "abc",
     });
-};
-
-  useEffect(() => {
-    const handleUserInteraction = () => {
-      setIsUserInteracted(true);
-      window.removeEventListener("click", handleUserInteraction);
-      window.removeEventListener("keypress", handleUserInteraction);
-    };
-
-    window.addEventListener("click", handleUserInteraction);
-    window.addEventListener("keypress", handleUserInteraction);
-
-    return () => {
-      window.removeEventListener("click", handleUserInteraction);
-      window.removeEventListener("keypress", handleUserInteraction);
-    };
-  }, []);
-
+  };
   const playAnimationRef = useRef(null);
 
   const updateProgress = useCallback(() => {
@@ -79,7 +60,6 @@ const Controls = () => {
   }, [updateProgress, duration, audioRef, progressBarRef]);
 
   useEffect(() => {
-    audioRef.current.currentTime = timeProgress;
     if (isPlaying && isUserInteracted) {
       audioRef.current?.play();
       startAnimation();
@@ -122,8 +102,11 @@ const Controls = () => {
 
     if (currentAudioRef) {
       currentAudioRef.onended = () => {
-        console.log("onended");
+        console.log("song ended");
         // Play next song from the queue which is higher in the list
+        socket.emit("nextSong", {
+          roomCode: "abc",
+        });
       };
     }
 
@@ -133,6 +116,15 @@ const Controls = () => {
       }
     };
   }, [audioRef]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = timeProgress;
+      if (isPlaying && isUserInteracted) {
+        audioRef.current.play();
+      }
+    }
+  }, [currentSong, audioRef, isPlaying, isUserInteracted]);
 
   return (
     <div className="flex gap-4 items-center">

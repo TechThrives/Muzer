@@ -3,6 +3,7 @@ import {
     useContext,
     useState,
     useRef,
+    useEffect
   } from 'react';
 
   const AudioPlayerContext = createContext(null);
@@ -12,9 +13,26 @@ import {
     const [timeProgress, setTimeProgress] = useState(0);
     const [duration, setDuration] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isUserInteracted, setIsUserInteracted] = useState(false);
   
     const audioRef = useRef(null);
     const progressBarRef = useRef(null);
+
+    useEffect(() => {
+      const handleUserInteraction = () => {
+        setIsUserInteracted(true);
+        window.removeEventListener("click", handleUserInteraction);
+        window.removeEventListener("keypress", handleUserInteraction);
+      };
+  
+      window.addEventListener("click", handleUserInteraction);
+      window.addEventListener("keypress", handleUserInteraction);
+  
+      return () => {
+        window.removeEventListener("click", handleUserInteraction);
+        window.removeEventListener("keypress", handleUserInteraction);
+      };
+    }, []);
   
     const contextValue = {
       currentSong,
@@ -27,6 +45,7 @@ import {
       setDuration,
       isPlaying,
       setIsPlaying,
+      isUserInteracted,
     };
   
     return (

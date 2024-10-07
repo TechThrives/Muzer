@@ -5,18 +5,21 @@ import { useAudioPlayer } from "../context/AudioPlayerContext";
 const useRoom = (roomCode) => {
   const { socket } = useSocket();
   const [songs, setSongs] = useState([]);
-  const { setCurrentSong, setIsPlaying, setTimeProgress } = useAudioPlayer();
+  const { setCurrentSong, setIsPlaying, setTimeProgress, audioRef } =
+    useAudioPlayer();
 
   useEffect(() => {
     socket.emit("joinRoom", { roomCode });
 
-    socket.on("roomData", (room) => {
-      setSongs(room.songs);
-      if(room.currentSong){
-        console.log(room.currentSong);
-        setCurrentSong(room.currentSong);
-        setIsPlaying(room.currentSong.isPlaying); // line causing error
-        setTimeProgress(room.currentSong.timeProgress);
+    socket.on("roomData", (roomData) => {
+      setSongs(roomData.songs);
+      setCurrentSong(roomData.currentSong);
+      if (roomData.currentSong) {
+        setIsPlaying(roomData.currentSong.isPlaying);
+        setTimeProgress(roomData.currentSong.timeProgress);
+      } else {
+        setIsPlaying(false);
+        setTimeProgress(0);
       }
     });
 
