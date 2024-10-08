@@ -1,4 +1,4 @@
-import { useAudioPlayer } from '../context/AudioPlayerContext';
+import { useAudioPlayer } from '../../context/AudioPlayerContext';
 
 const ProgressBar = () => {
   const {
@@ -39,10 +39,10 @@ const ProgressBar = () => {
   };
 
   return (
-    <div className="flex items-center justify-center gap-5 w-full">
+    <div className="flex items-center justify-center gap-2 w-full">
       <span>{formatTime(timeProgress)}</span>
       <input
-        className="max-w-[80%] bg-gray-300"
+        className="max-w-[80%] progress-slider"
         ref={progressBarRef}
         type="range"
         defaultValue="0"

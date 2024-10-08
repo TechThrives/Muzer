@@ -5,7 +5,7 @@ import {
   IoMdVolumeOff,
   IoMdVolumeLow,
 } from 'react-icons/io';
-import { useAudioPlayer } from '../context/AudioPlayerContext';
+import { useAudioPlayer } from '../../context/AudioPlayerContext';
 
 const VolumeControl = () => {
   const [volume, setVolume] = useState(60);
@@ -40,7 +40,7 @@ const VolumeControl = () => {
           min={0}
           max={100}
           value={volume}
-          className="volumn"
+          className='volume-slider'
           onChange={handleVolumeChange}
           style={{
             background: `linear-gradient(to right, #f50 ${volume}%, #ccc ${volume}%)`,

@@ -6,6 +6,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 // Routes
+import authRoutes from "./routes/authRoutes.js";
 import roomRoutes from "./routes/roomRoutes.js";
 
 //Handlers
@@ -31,7 +32,7 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("New user connected");
+  console.log("New user connected", socket.id);
 
   //Handlers
   roomHandler(io, socket);
@@ -47,6 +48,7 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 
 // Routes
+app.use("/api/auth", authRoutes);
 app.use("/api/room", roomRoutes);
 
 server.listen(serverConfig.PORT, () => {

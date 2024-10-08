@@ -1,64 +1,76 @@
-import React, {
-    createContext,
-    useContext,
-    useEffect,
-    useState,
-  } from "react";
-  import SocketIoClient from "socket.io-client";
-  import { notify } from "../services/toastService";
-  
-  // Create the context
-  export const SocketContext = createContext(null);
-  
-  // Initialize socket connection
-  const socket = SocketIoClient(process.env.REACT_APP_SERVER, {
-    withCredentials: true,
-    transports: ["polling", "websocket"],
-  });
-  
-  // Context provider component
-  export const SocketProvider = ({ children }) => {
-    const [user, setUser] = useState({email:"", password:""});
-  
-    useEffect(() => {
-      if (!user) return;
-  
-      socket.on("error", ({ message }) => {
+import React, { createContext, useContext, useEffect, useState } from "react";
+import SocketIoClient from "socket.io-client";
+import { notify } from "../services/toastService";
+import { useAuth } from "./AuthContext";
+
+const SocketContext = createContext(null);
+
+export const SocketProvider = ({ children }) => {
+  const { isAuthenticated, user } = useAuth();
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const newSocket = SocketIoClient(process.env.REACT_APP_SERVER, {
+        withCredentials: true,
+        transports: ["polling", "websocket"],
+      });
+
+      setSocket(newSocket);
+
+      newSocket.on("error", ({ message }) => {
         notify(400, message);
       });
 
-      socket.on("success", ({ message }) => {
+      newSocket.on("success", ({ message }) => {
         notify(200, message);
       });
-  
-      return () => {
-        socket.off("error");
-        socket.off("success");
-      };
-    }, [socket, user]);
-  
-    return (
-      <SocketContext.Provider
-        value={{
-          socket,
-          user,
-          setUser,
-        }}
-      >
-        {children}
-      </SocketContext.Provider>
-    );
-  };
-  
-  // Custom hook to use the Socket context
-  export const useSocket = () => {
-    const context = useContext(SocketContext);
 
-    if (context === undefined) {
-      throw new Error(
-        'useSocket must be used within a SocketProvider'
-      );
+      return () => {
+        newSocket.disconnect();
+      };
+    } else {
+      if (socket) {
+        socket.disconnect();
+      }
+      setSocket(null);
     }
-    
-    return context;
+  }, [isAuthenticated, user]);
+
+  const onEvent = (event, handler) => {
+    if (!socket) return;
+
+    socket.on(event, handler);
+
+    return () => {
+      socket.off(event, handler);
+    };
   };
+
+  const emitEvent = (event, data) => {
+    if (socket) {
+      socket.emit(event, data);
+    }
+  };
+
+  const contextValues = {
+    onEvent,
+    emitEvent,
+  };
+
+  return (
+    <SocketContext.Provider value={contextValues}>
+      {children}
+    </SocketContext.Provider>
+  );
+};
+
+export const useSocket = () => {
+  const context = useContext(SocketContext);
+
+  if (context === undefined) {
+    throw new Error("useSocket must be used within a SocketProvider");
+  }
+
+  return context;
+};

@@ -1,5 +1,5 @@
 import { BsMusicNoteBeamed } from 'react-icons/bs';
-import { useAudioPlayer } from '../context/AudioPlayerContext';
+import { useAudioPlayer } from '../../context/AudioPlayerContext';
 
 const SongInfo = () => {
   const { currentSong } = useAudioPlayer();
@@ -14,7 +14,7 @@ const SongInfo = () => {
             alt="audio avatar"
           />
         ) : (
-          <div className="flex items-center justify-center w-full h-full bg-gray-300 rounded-md">
+          <div className="flex items-center justify-center w-full h-full bg-gray-200 rounded-md">
             <span className="text-xl text-gray-600">
               <BsMusicNoteBeamed />
             </span>

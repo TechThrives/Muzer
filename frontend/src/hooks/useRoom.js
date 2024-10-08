@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
 import { useSocket } from "../context/SocketContext";
 import { useAudioPlayer } from "../context/AudioPlayerContext";
+import { useAuth } from "../context/AuthContext";
 
 const useRoom = (roomCode) => {
-  const { socket } = useSocket();
+  const { onEvent, emitEvent } = useSocket();
+  const { user } = useAuth();
   const [songs, setSongs] = useState([]);
-  const { setCurrentSong, setIsPlaying, setTimeProgress, audioRef } =
-    useAudioPlayer();
+  const { setCurrentSong, setIsPlaying, setTimeProgress } = useAudioPlayer();
 
   useEffect(() => {
-    socket.emit("joinRoom", { roomCode });
-
-    socket.on("roomData", (roomData) => {
+    const cleanupRoomData = onEvent("roomData", (roomData) => {
       setSongs(roomData.songs);
       setCurrentSong(roomData.currentSong);
       if (roomData.currentSong) {
@@ -24,23 +23,29 @@ const useRoom = (roomCode) => {
     });
 
     return () => {
-      socket.off("roomData");
+      if (cleanupRoomData) {
+        cleanupRoomData();
+      }
     };
-  }, [socket, roomCode]);
+  }, [roomCode, onEvent]);
+
+  useEffect(() => {
+    emitEvent("joinRoom", { roomCode });
+  }, [roomCode, emitEvent]);
 
   const handleVote = (songId, voteValue) => {
     const songData = {
       roomCode,
-      userId: "51c5e434-9302-4de1-ad85-a3f5cef20bef",
+      userId: user.id,
       songId,
       voteValue,
     };
-    socket.emit("voteSong", songData);
+    emitEvent("voteSong", songData);
   };
 
-  const addSong = ({ roomCode, newSong }) => {
-    socket.emit("addSong", { roomCode, newSong });
-    // setNewSong({ url: "" });
+  const addSong = (song) => {
+    const songData = {...song, addedById: user.id };
+    emitEvent("addSong", { roomCode, songData });
   };
 
   return { songs, handleVote, addSong };

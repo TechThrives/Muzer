@@ -6,8 +6,8 @@ import {
   BsFillRewindFill,
 } from "react-icons/bs";
 
-import { useAudioPlayer } from "../context/AudioPlayerContext";
-import { useSocket } from "../context/SocketContext";
+import { useAudioPlayer } from "../../context/AudioPlayerContext";
+import { useSocket } from "../../context/SocketContext";
 
 const Controls = () => {
   const {
@@ -24,10 +24,10 @@ const Controls = () => {
     isUserInteracted,
   } = useAudioPlayer();
 
-  const { socket } = useSocket();
+  const { emitEvent } = useSocket();
 
   const updateSong = () => {
-    socket.emit("updateSong", {
+    emitEvent("updateSong", {
       songId: currentSong.id,
       isPlaying,
       timeProgress: parseInt(timeProgress),
@@ -104,7 +104,7 @@ const Controls = () => {
       currentAudioRef.onended = () => {
         console.log("song ended");
         // Play next song from the queue which is higher in the list
-        socket.emit("nextSong", {
+        emitEvent("nextSong", {
           roomCode: "abc",
         });
       };

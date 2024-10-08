@@ -3,31 +3,35 @@ import { useNavigate } from "react-router-dom";
 import { useSocket } from "../context/SocketContext";
 
 const Home = () => {
-  const { socket } = useSocket();
+  const { onEvent, emitEvent } = useSocket();
   const navigate = useNavigate();
 
   const handleHost = () => {
-    socket.emit("createRoom");
+    emitEvent("createRoom");
+  };
+
+  const handleLogout = () => {
+    navigate("/logout");
   };
 
   useEffect(() => {
-    socket.on("roomCreated", (room) => {
-      console.log("New room created", room);
+    const cleanupRoomCreated = onEvent("roomCreated", (room) => {
       navigate(`/host/${room.code}`);
     });
 
     return () => {
-      socket.off("roomCreated");
+      if (cleanupRoomCreated) {
+        cleanupRoomCreated();
+      }
     };
-  }, [socket]);
+  }, [navigate, onEvent]);
 
   return (
-    <>
-      <div className="flex flex-col gap-2">
-        <button onClick={handleHost}>Host</button>
-        <button onClick={() => navigate("/room/abc")}>Join</button>
-      </div>
-    </>
+    <div className="flex flex-col gap-2">
+      <button onClick={handleHost}>Host</button>
+      <button onClick={() => navigate("/room/abc")}>Join</button>
+      <button onClick={handleLogout}>Logout</button> {/* Logout Button */}
+    </div>
   );
 };
 

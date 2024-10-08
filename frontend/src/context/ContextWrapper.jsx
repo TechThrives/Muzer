@@ -1,13 +1,16 @@
 import React from "react";
 import { SocketProvider } from "./SocketContext";
 import { AudioPlayerProvider } from "./AudioPlayerContext";
+import { AuthProvider } from "./AuthContext";
 
 const ContextWrapper = ({ children }) => {
-    return (
-        <SocketProvider>
-            <AudioPlayerProvider>{children}</AudioPlayerProvider>
-        </SocketProvider>
-    );
+  return (
+    <AuthProvider>
+      <SocketProvider>
+        <AudioPlayerProvider>{children}</AudioPlayerProvider>
+      </SocketProvider>
+    </AuthProvider>
+  );
 };
 
 export default ContextWrapper;

@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import useRoom from "../hooks/useRoom";
-import AudioPlayer from "../components/AudioPlayer";
+import AudioPlayer from "../components/audioPlayer/AudioPlayer";
 import { useAudioPlayer } from "../context/AudioPlayerContext";
 
 const Host = () => {
@@ -9,7 +9,7 @@ const Host = () => {
   const { currentSong } = useAudioPlayer();
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-white text-gray-800 p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <header className="flex items-center justify-between mb-8">
@@ -20,20 +20,12 @@ const Host = () => {
         </header>
 
         {/* Current Song (Music Player) */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-8">
-          <h2 className="text-2xl mb-4">Now Playing</h2>
+        <div className=" rounded-lg p-6 mb-8">
+          <h2 className="text-xl mb-4">Now Playing</h2>
           {currentSong ? (
-            <div className="flex items-center">
-              <div className="mr-6">
-              <AudioPlayer />
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold">{currentSong.title}</h3>
-                <p>{currentSong.artist}</p>
-              </div>
-            </div>
+            <AudioPlayer />
           ) : (
-            <p>No song playing currently.</p>
+            <p className="text-gray-400">No song playing currently.</p>
           )}
         </div>
 
@@ -42,13 +34,18 @@ const Host = () => {
           <h2 className="text-2xl mb-4">Playlist</h2>
           <ul className="space-y-4">
             {songs.map((song) => (
-              <li key={song.id} className="bg-gray-800 p-4 rounded-lg flex justify-between items-center">
+              <li
+                key={song.id}
+                className="shadow-md p-4 rounded-lg flex justify-between items-center"
+              >
                 <div>
                   <h3 className="text-xl font-semibold">{song.title}</h3>
-                  <p>{song.artist}</p>
+                  <p className="text-gray-400">{song.artist}</p>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <span className="text-lg font-semibold">{song.voteCount}</span>
+                  <span className="text-lg font-semibold">
+                    {song.voteCount}
+                  </span>
                 </div>
               </li>
             ))}

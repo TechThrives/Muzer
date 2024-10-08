@@ -73,7 +73,7 @@ const roomHandler = (io, socket) => {
     }
   };
 
-  const addSong = async ({ roomCode, newSong }) => {
+  const addSong = async ({ roomCode, songData }) => {
     try {
       const room = await prisma.room.findUnique({
         where: {
@@ -101,7 +101,7 @@ const roomHandler = (io, socket) => {
               id: room.id,
             },
           },
-          addedById: newSong.addedById,
+          addedById: songData.addedById,
         },
       });
 
@@ -114,10 +114,10 @@ const roomHandler = (io, socket) => {
       // Add the new song to the database
       const song = await prisma.song.create({
         data: {
-          src: newSong.src,
-          title: newSong.title,
-          artist: newSong.artist,
-          addedById: newSong.addedById,
+          src: songData.src,
+          title: songData.title,
+          artist: songData.artist,
+          addedById: songData.addedById,
         },
       });
 
