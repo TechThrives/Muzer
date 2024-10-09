@@ -2,47 +2,6 @@ import prisma from "../config/prismaConfig.js";
 import bcrypt from "bcrypt";
 
 const roomHandler = (io, socket) => {
-  const createRoom = async () => {
-    try {
-      // Create temp user
-      let user = await prisma.user.findUnique({
-        where: {
-          email: "temp@example.com",
-        },
-      });
-
-      if (!user) {
-        const hashedPassword = await bcrypt.hash("password", 10);
-        user = await prisma.user.create({
-          data: {
-            email: "temp@example.com",
-            password: hashedPassword,
-          },
-        });
-      }
-
-      // Create a new room
-      let room = await prisma.room.findUnique({
-        where: {
-          code: "abc",
-        },
-      });
-
-      if (!room) {
-        room = await prisma.room.create({
-          data: {
-            hostId: user.id,
-            code: "abc",
-          },
-        });
-      }
-
-      socket.emit("roomCreated", room);
-    } catch (error) {
-      console.error("Error creating room:", error);
-      socket.emit("error", { message: "Could not create room." });
-    }
-  };
 
   const joinRoom = async ({ roomCode }) => {
     try {
@@ -117,6 +76,11 @@ const roomHandler = (io, socket) => {
           src: songData.src,
           title: songData.title,
           artist: songData.artist,
+          thumbnail: songData.thumbnail,
+          label: songData.label,
+          language: songData.language,
+          duration: songData.duration,
+          year: parseInt(songData.year),
           addedById: songData.addedById,
         },
       });
@@ -259,7 +223,6 @@ const roomHandler = (io, socket) => {
   };
 
   // Socket event listeners
-  socket.on("createRoom", createRoom);
   socket.on("joinRoom", joinRoom);
   socket.on("addSong", addSong);
   socket.on("voteSong", voteSong);

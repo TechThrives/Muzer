@@ -5,7 +5,7 @@ const songHandler = (io, socket) => {
     try {
       const updatedSong = await prisma.song.update({
         where: {
-          id: songData.songId,
+          id: songData.id,
         },
         data: {
           isPlaying: songData.isPlaying,

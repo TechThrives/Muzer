@@ -5,7 +5,6 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
-import Host from "./pages/Host";
 import Room from "./pages/Room";
 import ContextWrapper from "./context/ContextWrapper";
 import PrivateRoute from "./utils/PrivateRoute";
@@ -29,21 +28,13 @@ function App() {
             }
           />
           <Route
-            path="/host/:roomCode"
-            element={
-              <PrivateRoute>
-                <Host />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/room/:roomCode"
-            element={
-              <PrivateRoute>
-                <Room />
-              </PrivateRoute>
-            }
-          />
+  path="/room/:roomCode"
+  element={
+    <PrivateRoute>
+      <Room />
+    </PrivateRoute>
+  }
+/>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </ContextWrapper>

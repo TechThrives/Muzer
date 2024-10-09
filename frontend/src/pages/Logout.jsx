@@ -4,12 +4,13 @@ import fetchService from "../services/fetchService";
 const Logout = () => {
   useEffect(() => {
     async function logout() {
-      const response = await fetchService("/api/auth/logout", {
+      const url = "/api/auth/logout";
+      const options = {
         method: "POST",
         credentials: "include",
-      });
+      };
 
-      if (response) {
+      if (await fetchService(url, options)) {
         window.location.href = "/";
       }
     }

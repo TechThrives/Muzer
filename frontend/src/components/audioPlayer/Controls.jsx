@@ -8,6 +8,7 @@ import {
 
 import { useAudioPlayer } from "../../context/AudioPlayerContext";
 import { useSocket } from "../../context/SocketContext";
+import { useParams } from "react-router-dom";
 
 const Controls = () => {
   const {
@@ -26,12 +27,14 @@ const Controls = () => {
 
   const { emitEvent } = useSocket();
 
+  const { roomCode } = useParams();
+
   const updateSong = () => {
     emitEvent("updateSong", {
-      songId: currentSong.id,
+      id: currentSong.id,
       isPlaying,
       timeProgress: parseInt(timeProgress),
-      roomCode: "abc",
+      roomCode: roomCode,
     });
   };
   const playAnimationRef = useRef(null);
@@ -105,7 +108,7 @@ const Controls = () => {
         console.log("song ended");
         // Play next song from the queue which is higher in the list
         emitEvent("nextSong", {
-          roomCode: "abc",
+          roomCode: roomCode,
         });
       };
     }

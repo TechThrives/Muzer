@@ -37,6 +37,10 @@ model Song {
   id           String   @id @default(uuid())
   title        String
   artist       String
+  year         Int
+  language     String
+  duration     Int
+  label        String
   src          String   // Path to the song file
   thumbnail    String   @default("https://www.teachhub.com/wp-content/uploads/2019/10/Our-Top-10-Songs-About-School-768x569.png")// Path to the thumbnail
   isPlaying    Boolean  @default(true)

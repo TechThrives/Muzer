@@ -13,6 +13,9 @@ import roomRoutes from "./routes/roomRoutes.js";
 import roomHandler from "./handlers/roomHandler.js";
 import songHandler from "./handlers/songHandler.js";
 
+//Middlewares
+import authMiddleware from "./middleware/authMiddleware.js";
+
 const app = express();
 
 const corsOptions = {
@@ -37,7 +40,7 @@ io.on("connection", (socket) => {
   //Handlers
   roomHandler(io, socket);
   songHandler(io, socket);
-  
+
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });
@@ -49,7 +52,7 @@ app.use(cors(corsOptions));
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/room", roomRoutes);
+app.use("/api/room", authMiddleware, roomRoutes);
 
 server.listen(serverConfig.PORT, () => {
   console.log(`Server is up at port ${serverConfig.PORT}`);

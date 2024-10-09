@@ -1,13 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../context/SocketContext";
+import fetchService from "../services/fetchService";
+import AddSong from "../components/room/AddSong";
 
 const Home = () => {
-  const { onEvent, emitEvent } = useSocket();
+  const { onEvent } = useSocket();
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleHost = () => {
-    emitEvent("createRoom");
+  const handleHost = async() => {
+    const url = "/api/room/create";
+    const options = {
+      method: "POST",
+      credentials: "include",
+    };
+    const response = await fetchService(url, options);
+    if(response) {
+      navigate(`/room/${response.code}`);
+    }
   };
 
   const handleLogout = () => {
@@ -16,7 +27,7 @@ const Home = () => {
 
   useEffect(() => {
     const cleanupRoomCreated = onEvent("roomCreated", (room) => {
-      navigate(`/host/${room.code}`);
+      navigate(`/room/${room.code}`);
     });
 
     return () => {
@@ -29,8 +40,7 @@ const Home = () => {
   return (
     <div className="flex flex-col gap-2">
       <button onClick={handleHost}>Host</button>
-      <button onClick={() => navigate("/room/abc")}>Join</button>
-      <button onClick={handleLogout}>Logout</button> {/* Logout Button */}
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };
