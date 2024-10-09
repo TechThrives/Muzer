@@ -4,7 +4,16 @@ import { useAudioPlayer } from "../context/AudioPlayerContext";
 import AddSong from "../components/room/AddSong";
 import { useState } from "react";
 import { BsMusicNoteBeamed, BsPlus } from "react-icons/bs";
-import { AiFillLike, AiFillDislike } from "react-icons/ai"
+import {
+  AiFillLike,
+  AiFillDislike,
+  AiFillCalendar,
+  AiFillClockCircle,
+  AiFillGold,
+  AiFillTag,
+  AiFillProduct,
+} from "react-icons/ai";
+import AnimatedBars from "../components/AnimatedBars";
 
 const User = () => {
   const { roomCode } = useParams();
@@ -12,37 +21,59 @@ const User = () => {
   const { currentSong } = useAudioPlayer();
   const [open, setOpen] = useState(false);
 
+  const durationToTime = (duration) => {
+    const minutes = Math.floor(duration / 60);
+    const seconds = Math.floor(duration % 60);
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
   return (
     <div className="min-h-screen text-gray-800 p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <header className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold">Room</h1>
+        <header className="flex items-center justify-center mb-8">
+          <h1 className="text-2xl font-bold">Room</h1>
         </header>
 
         {/* Current Song (Music Player) */}
-        <div className="rounded-lg p-6 mb-8">
-          <h2 className="text-2xl mb-4">Now Playing</h2>
+        <div className="rounded-lg mb-8">
+          <h2 className="text-xl mb-4">Now Playing</h2>
           {currentSong ? (
             <div className="flex items-center gap-4">
-                <div className="w-24 h-24 flex items-center justify-center bg-gray-200 rounded-md overflow-hidden">
-                  {currentSong.thumbnail ? (
+              <div className="w-24 h-24 flex items-center justify-center bg-gray-200 rounded-md overflow-hidden">
+                {currentSong.thumbnail ? (
+                  <div className="relative w-full h-full">
                     <img
                       className="w-full h-full object-cover"
                       src={currentSong.thumbnail}
                       alt="audio avatar"
                     />
-                  ) : (
-                    <div className="flex items-center justify-center w-full h-full bg-gray-200 rounded-md">
-                      <span className="text-xl text-gray-600">
-                        <BsMusicNoteBeamed />
-                      </span>
-                    </div>
-                  )}
-                </div>
+
+                    {currentSong.isPlaying && <AnimatedBars />}
+                  </div>
+                ) : (
+                  <div className="relative flex items-center justify-center w-full h-full bg-gray-200 rounded-md">
+                    <span className="text-xl text-gray-600">
+                      <BsMusicNoteBeamed />
+                    </span>
+
+                    {currentSong.isPlaying && <AnimatedBars />}
+                  </div>
+                )}
+              </div>
               <div>
                 <h3 className="text-xl font-semibold">{currentSong.title}</h3>
-                <p>{currentSong.artist}</p>
+                <p className="text-md italic font-medium">
+                  {currentSong.artist}
+                </p>
+                <p>
+                  {currentSong.language.charAt(0).toUpperCase() +
+                    currentSong.language.slice(1)}
+                </p>
+                <p>
+                  {durationToTime(currentSong.timeProgress)} -{" "}
+                  {durationToTime(currentSong.duration)}
+                </p>
               </div>
             </div>
           ) : (
@@ -52,50 +83,67 @@ const User = () => {
 
         {/* Playlist */}
         <div className="mb-8">
-          <h2 className="text-2xl mb-4">Playlist</h2>
+          <h2 className="text-xl mb-4">Playlist</h2>
           <ul className="space-y-4">
             {songs.map((song) => (
               <li
                 key={song.id}
-                className="shadow-md p-4 rounded-lg flex justify-between items-center"
+                className="cursor-pointer shadow-lg p-3 px-6 rounded-lg text-white flex flex-col items-start sm:flex-row sm:justify-between bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all duration-300 ease-in-out transform hover:scale-105"
               >
-                <div className="flex items-center gap-4">
-                <div className="w-24 h-24 flex items-center justify-center bg-gray-200 rounded-md overflow-hidden">
-                  {song.thumbnail ? (
-                    <img
-                      className="w-full h-full object-cover"
-                      src={song.thumbnail}
-                      alt="audio avatar"
-                    />
-                  ) : (
-                    <div className="flex items-center justify-center w-full h-full bg-gray-200 rounded-md">
-                      <span className="text-xl text-gray-600">
-                        <BsMusicNoteBeamed />
+                <div className="flex items-center gap-6">
+                  {/* Thumbnail */}
+                  <div className="h-12 w-12 min-w-12 min-h-12 sm:w-16 sm:h-16 sm:min-w-16 sm:min-h-16 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden shadow-inner">
+                    {song.thumbnail ? (
+                      <img
+                        className="w-full h-full object-cover"
+                        src={song.thumbnail}
+                        alt="song thumbnail"
+                      />
+                    ) : (
+                      <div className="flex items-center justify-center w-full h-full bg-gray-200">
+                        <span className="text-3xl text-gray-400">
+                          <BsMusicNoteBeamed />
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  {/* Song Info */}
+                  <div className="space-y-1">
+                    <h3 className="text-md md:text-md font-bold tracking-wide line-clamp-1">
+                      {song.title}{" "}
+                      <span className="text-sm font-normal italic">
+                        {song.artist}
                       </span>
-                    </div>
-                  )}
+                    </h3>
+                    <h5 className="text-sm ">
+                      {song.year} -{" "}
+                      {song.language.charAt(0).toUpperCase() +
+                        song.language.slice(1)}{" "}
+                      - {durationToTime(song.duration)}
+                    </h5>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-xl font-semibold">{song.title}</h3>
-                  <p>{song.artist}</p>
-                </div>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <button
-                    className="bg-green-500 hover:bg-green-600 px-4 py-2 rounded"
-                    onClick={() => handleVote(song.id, 1)}
-                  >
-                    <AiFillLike className="text-white" />
-                  </button>
-                  <button
-                    className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded"
-                    onClick={() => handleVote(song.id, -1)}
-                  >
-                    <AiFillDislike className="text-white" />
-                  </button>
-                  <span className="text-lg font-semibold text-center min-w-4">
-                    {song.voteCount}
-                  </span>
+                {/* Vote & Info */}
+                <div className="flex items-center space-x-6">
+                  {/* Vote Buttons */}
+                  <div className="flex gap-2 mt-3 items-center">
+                    <button
+                      className="bg-green-500 hover:bg-green-600 p-2 rounded-full flex items-center justify-center shadow-md transform hover:rotate-6 transition-transform duration-200 ease-out"
+                      onClick={() => handleVote(song.id, 1)}
+                    >
+                      <AiFillLike className="text-white text-md" />
+                    </button>
+                    <button
+                      className="bg-red-500 hover:bg-red-600 p-2 rounded-full flex items-center justify-center shadow-md transform hover:-rotate-6 transition-transform duration-200 ease-out"
+                      onClick={() => handleVote(song.id, -1)}
+                    >
+                      <AiFillDislike className="text-white text-md" />
+                    </button>
+                  </div>
+                  <div className="mt-2 text-center text-md font-semibold">
+                    <span className="block">{song.voteCount}</span>
+                    <p className="text-xs">Votes</p>
+                  </div>
                 </div>
               </li>
             ))}

@@ -12,7 +12,7 @@ const AudioPlayer = () => {
 
   return (
     <div>
-      <div className="min-h-8 text-gray-800 flex flex-col sm:flex-row gap-6 justify-between items-center p-[0.5rem_10px]">
+      <div className="min-h-8 text-gray-800 flex flex-col sm:flex-row gap-6 justify-between items-center">
         {currentSong && <SongInfo />}
         <div className="w-full flex flex-col items-center m-auto flex-1">
           <ProgressBar />
