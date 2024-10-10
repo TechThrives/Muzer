@@ -32,7 +32,7 @@ const Host = () => {
           {currentSong ? (
             <AudioPlayer />
           ) : (
-            <p className="text-gray-400">No song playing currently.</p>
+            <p className="text-gray-500">No song playing currently.</p>
           )}
         </div>
 

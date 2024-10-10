@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import { useSocket } from "../context/SocketContext";
 import { useAudioPlayer } from "../context/AudioPlayerContext";
 import { useAuth } from "../context/AuthContext";
+import fetchService from "../services/fetchService";
 
 const useRoom = (roomCode) => {
   const { onEvent, emitEvent } = useSocket();
   const { user } = useAuth();
   const [songs, setSongs] = useState([]);
+  const [roomData, setRoomData] = useState({});
+  const [isFavorite, setIsFavorite] = useState(false);
   const { setCurrentSong, setIsPlaying, setTimeProgress } = useAudioPlayer();
 
   useEffect(() => {
@@ -29,9 +32,28 @@ const useRoom = (roomCode) => {
     };
   }, [roomCode, onEvent]);
 
+const getRoomData = async () => {
+  const url = `/api/room/${roomCode}`;
+    const options = {
+      method: "GET",
+      credentials: "include",
+    };
+
+    const data = await fetchService(url, options);
+
+    if (data) {
+      setRoomData(data);
+      setIsFavorite(data.isFavorite);
+    }
+  }
+
+
   useEffect(() => {
     emitEvent("joinRoom", { roomCode });
+    getRoomData();
+
   }, [roomCode, emitEvent]);
+
 
   const handleVote = (songId, voteValue) => {
     const songData = {
@@ -48,7 +70,7 @@ const useRoom = (roomCode) => {
     emitEvent("addSong", { roomCode, songData });
   };
 
-  return { songs, handleVote, addSong };
+  return { songs, handleVote, addSong, roomData, isFavorite , setIsFavorite};
 };
 
 export default useRoom;

@@ -3,140 +3,231 @@
 @tailwind utilities;
 
 .progress-slider {
-    margin: 0 auto;
-    display: block;
-    width: 90%;
-    -webkit-appearance: none; /* Remove default styling */
-    height: 4px; /* Track height */
-    background: #f7f7f7; /* Background color of the track */
+  margin: 0 auto;
+  display: block;
+  width: 90%;
+  -webkit-appearance: none; /* Remove default styling */
+  height: 4px; /* Track height */
+  background: #f7f7f7; /* Background color of the track */
 }
 
 .progress-slider::-webkit-slider-thumb {
-    background: linear-gradient(135deg, #2c5bf5, #ba22f7); /* Gradient for thumb */
-    -webkit-appearance: none; /* Remove default styling */
-    width: 16px; /* Thumb width */
-    height: 16px; /* Thumb height */
-    border-radius: 25%; /* Round thumb */
-    margin-top: -6px; /* Adjust to align with track */
-    cursor: pointer; /* Pointer on hover */
-    transition: background 0.2s ease-in-out; /* Smooth transition */
+  background: linear-gradient(
+    135deg,
+    #2c5bf5,
+    #ba22f7
+  ); /* Gradient for thumb */
+  -webkit-appearance: none; /* Remove default styling */
+  width: 16px; /* Thumb width */
+  height: 16px; /* Thumb height */
+  border-radius: 25%; /* Round thumb */
+  margin-top: -6px; /* Adjust to align with track */
+  cursor: pointer; /* Pointer on hover */
+  transition: background 0.2s ease-in-out; /* Smooth transition */
 }
 
 .progress-slider::-webkit-slider-runnable-track {
-    height: 4px; /* Track height */
-    background: #e419b1; /* Track color */
-    border-radius: 16px; /* Rounded track */
+  height: 4px; /* Track height */
+  background: #e419b1; /* Track color */
+  border-radius: 16px; /* Rounded track */
 }
 
 .progress-slider::-moz-range-thumb {
-    background: linear-gradient(135deg, #2c5bf5, #ba22f7); /* Gradient for thumb */
-    width: 16px; /* Thumb width */
-    height: 16px; /* Thumb height */
-    border-radius: 25%; /* Round thumb */
-    cursor: pointer; /* Pointer on hover */
+  background: linear-gradient(
+    135deg,
+    #2c5bf5,
+    #ba22f7
+  ); /* Gradient for thumb */
+  width: 16px; /* Thumb width */
+  height: 16px; /* Thumb height */
+  border-radius: 25%; /* Round thumb */
+  cursor: pointer; /* Pointer on hover */
 }
 
 .progress-slider::-moz-range-track {
-    height: 4px; /* Track height */
-    background: #e419b1; /* Track color */
-    border-radius: 16px; /* Rounded track */
+  height: 4px; /* Track height */
+  background: #e419b1; /* Track color */
+  border-radius: 16px; /* Rounded track */
 }
 
 .progress-slider::-ms-thumb {
-    background: linear-gradient(135deg, #2c5bf5, #ba22f7); /* Gradient for thumb */
-    width: 16px; /* Thumb width */
-    height: 16px; /* Thumb height */
-    border-radius: 25%; /* Round thumb */
-    cursor: pointer; /* Pointer on hover */
+  background: linear-gradient(
+    135deg,
+    #2c5bf5,
+    #ba22f7
+  ); /* Gradient for thumb */
+  width: 16px; /* Thumb width */
+  height: 16px; /* Thumb height */
+  border-radius: 25%; /* Round thumb */
+  cursor: pointer; /* Pointer on hover */
 }
 
 .progress-slider::-ms-track {
-    height: 4px; /* Track height */
-    background: transparent; /* For IE */
-    border-color: transparent; /* For IE */
-    color: transparent; /* For IE */
+  height: 4px; /* Track height */
+  background: transparent; /* For IE */
+  border-color: transparent; /* For IE */
+  color: transparent; /* For IE */
 }
 
 .progress-slider::-ms-fill-lower {
-    background: #e419b1; /* Lower track color */
-    border-radius: 16px; /* Rounded track */
+  background: #e419b1; /* Lower track color */
+  border-radius: 16px; /* Rounded track */
 }
 
 .progress-slider::-ms-fill-upper {
-    background: #e419b1; /* Upper track color */
-    border-radius: 16px; /* Rounded track */
+  background: #e419b1; /* Upper track color */
+  border-radius: 16px; /* Rounded track */
 }
 
 .progress-slider:focus {
-    outline: none; /* Remove default focus outline */
+  outline: none; /* Remove default focus outline */
 }
 
-
 .volume-slider {
-    margin: 0 auto;
-    display: block;
-    width: 90%;
-    -webkit-appearance: none; /* Remove default styling */
-    height: 4px; /* Track height */
-    background: #f7f7f7; /* Background color of the track */
+  margin: 0 auto;
+  display: block;
+  width: 90%;
+  -webkit-appearance: none; /* Remove default styling */
+  height: 4px; /* Track height */
+  background: #f7f7f7; /* Background color of the track */
 }
 
 .volume-slider::-webkit-slider-thumb {
-    background: linear-gradient(135deg, #e97552, #deee4a); /* Gradient for thumb */
-    -webkit-appearance: none; /* Remove default styling */
-    width: 16px; /* Thumb width */
-    height: 16px; /* Thumb height */
-    border-radius: 50%; /* Round thumb */
-    margin-top: -6px; /* Adjust to align with track */
-    cursor: pointer; /* Pointer on hover */
-    transition: background 0.2s ease-in-out; /* Smooth transition */
+  background: linear-gradient(
+    135deg,
+    #e97552,
+    #deee4a
+  ); /* Gradient for thumb */
+  -webkit-appearance: none; /* Remove default styling */
+  width: 16px; /* Thumb width */
+  height: 16px; /* Thumb height */
+  border-radius: 50%; /* Round thumb */
+  margin-top: -6px; /* Adjust to align with track */
+  cursor: pointer; /* Pointer on hover */
+  transition: background 0.2s ease-in-out; /* Smooth transition */
 }
 
 .volume-slider::-webkit-slider-runnable-track {
-    height: 4px; /* Track height */
-    background: #f39e3d; /* Track color */
-    border-radius: 16px; /* Rounded track */
+  height: 4px; /* Track height */
+  background: #f39e3d; /* Track color */
+  border-radius: 16px; /* Rounded track */
 }
 
 .volume-slider::-moz-range-thumb {
-    background: linear-gradient(135deg, #e97552, #deee4a); /* Gradient for thumb */
-    width: 16px; /* Thumb width */
-    height: 16px; /* Thumb height */
-    border-radius: 50%; /* Round thumb */
-    cursor: pointer; /* Pointer on hover */
+  background: linear-gradient(
+    135deg,
+    #e97552,
+    #deee4a
+  ); /* Gradient for thumb */
+  width: 16px; /* Thumb width */
+  height: 16px; /* Thumb height */
+  border-radius: 50%; /* Round thumb */
+  cursor: pointer; /* Pointer on hover */
 }
 
 .volume-slider::-moz-range-track {
-    height: 4px; /* Track height */
-    background: #f39e3d; /* Track color */
-    border-radius: 16px; /* Rounded track */
+  height: 4px; /* Track height */
+  background: #f39e3d; /* Track color */
+  border-radius: 16px; /* Rounded track */
 }
 
 .volume-slider::-ms-thumb {
-    background: linear-gradient(135deg, #e97552, #deee4a); /* Gradient for thumb */
-    width: 16px; /* Thumb width */
-    height: 16px; /* Thumb height */
-    border-radius: 50%; /* Round thumb */
-    cursor: pointer; /* Pointer on hover */
+  background: linear-gradient(
+    135deg,
+    #e97552,
+    #deee4a
+  ); /* Gradient for thumb */
+  width: 16px; /* Thumb width */
+  height: 16px; /* Thumb height */
+  border-radius: 50%; /* Round thumb */
+  cursor: pointer; /* Pointer on hover */
 }
 
 .volume-slider::-ms-track {
-    height: 4px; /* Track height */
-    background: transparent; /* For IE */
-    border-color: transparent; /* For IE */
-    color: transparent; /* For IE */
+  height: 4px; /* Track height */
+  background: transparent; /* For IE */
+  border-color: transparent; /* For IE */
+  color: transparent; /* For IE */
 }
 
 .volume-slider::-ms-fill-lower {
-    background: #f39e3d; /* Lower track color */
-    border-radius: 16px; /* Rounded track */
+  background: #f39e3d; /* Lower track color */
+  border-radius: 16px; /* Rounded track */
 }
 
 .volume-slider::-ms-fill-upper {
-    background: #f39e3d; /* Upper track color */
-    border-radius: 16px; /* Rounded track */
+  background: #f39e3d; /* Upper track color */
+  border-radius: 16px; /* Rounded track */
 }
 
 .volume-slider:focus {
-    outline: none; /* Remove default focus outline */
+  outline: none; /* Remove default focus outline */
+}
+
+.animation-bars {
+    animation: bars 1.2s ease-in-out infinite;
+  }
+  
+  @keyframes bars {
+    58% {
+      height: 50%;
+    }
+    100% {
+      height: 100%;
+    }
+  }
+  
+  .animation-delay-0 {
+    animation-delay: 0s;
+  }
+  
+  .animation-delay-1 {
+    animation-delay: 0.3s;
+  }
+  
+  .animation-delay-2 {
+    animation-delay: 0.6s;
+  }
+  
+  .animation-delay-3 {
+    animation-delay: 0.9s;
+  }
+  
+  .animation-delay-4 {
+    animation-delay: 0.12s;
+  }
+  
+  .animation-delay-5 {
+    animation-delay: 0.15s;
+  }
+  
+
+.animation-pulse {
+  animation: pulse 1s ease-in-out infinite;
+  animation-iteration-count: 1;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    box-shadow: 0 0 0 0 rgba(229, 62, 62, 1);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 60px rgba(229, 62, 62, 0);
+  }
+}
+
+.animation-spin {
+animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

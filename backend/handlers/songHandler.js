@@ -9,7 +9,7 @@ const songHandler = (io, socket) => {
         },
         data: {
           isPlaying: songData.isPlaying,
-          timeProgress: songData.timeProgress,
+          timeProgress: parseInt(songData.timeProgress),
         },
       });
 

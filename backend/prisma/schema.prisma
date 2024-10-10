@@ -14,19 +14,21 @@ datasource db {
 }
 
 model User {
-  id       String   @id @default(uuid())
-  email    String   @unique
-  password String   // Store hashed passwords
-  rooms    Room[]   // Rooms created by the user
-  votes    Vote[]   // Votes cast by the user
-  songs    Song[]   // Songs added by the user (limit 2 per room)
+  id             String   @id @default(uuid())
+  email          String   @unique
+  password       String   // Store hashed passwords
+  hostedRooms    Room[]   // Hosted rooms
+  favoriteRooms Room[]   @relation("FavoriteRooms") // Favorited rooms
+  votes          Vote[]
+  songs          Song[]   // Songs added by the user 
 }
 
 model Room {
   id            String   @id @default(uuid())
   code          String   @unique // Unique room code
   hostId        String
-  host          User     @relation(fields: [hostId], references: [id])
+  host          User     @relation(fields: [hostId], references: [id], onDelete: Cascade)
+  favoritedBy   User[]   @relation("FavoriteRooms")
   currentSongId String?
   currentSong   Song?    @relation("CurrentSong", fields: [currentSongId], references: [id])
   songs         Song[]   @relation("RoomSongs")
@@ -41,14 +43,14 @@ model Song {
   language     String
   duration     Int
   label        String
-  src          String   // Path to the song file
-  thumbnail    String   @default("https://www.teachhub.com/wp-content/uploads/2019/10/Our-Top-10-Songs-About-School-768x569.png")// Path to the thumbnail
+  src          String
+  thumbnail    String?
   isPlaying    Boolean  @default(true)
   timeProgress Int      @default(0)
   rooms        Room[]   @relation("RoomSongs")
   currentRooms Room[]   @relation("CurrentSong")
   addedById    String
-  addedBy      User     @relation(fields: [addedById], references: [id])
+  addedBy      User     @relation(fields: [addedById], references: [id], onDelete: Cascade)
   votes        Vote[]
   createdAt    DateTime @default(now())
   voteCount    Int      @default(0) // Song votes
@@ -57,10 +59,10 @@ model Song {
 model Vote {
   id        String   @id @default(uuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   songId    String
-  song      Song     @relation(fields: [songId], references: [id])
-  value     Int      // -1 for downvote, 1 for upvote
+  song      Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
+  value     Int // -1 for downvote, 1 for upvote
   createdAt DateTime @default(now())
 
   @@unique([userId, songId]) // One vote per user per song

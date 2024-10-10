@@ -21,7 +21,7 @@ const AddSong = ({ open, setOpen, addSong }) => {
             label: song.label,
             language: song.language,
             duration: song.duration,
-            year: song.year,
+            year: parseInt(song.year),
             src: song.downloadUrl[song.downloadUrl.length - 1].url,
         }));
 

@@ -7,17 +7,16 @@ import { BsMusicNoteBeamed, BsPlus } from "react-icons/bs";
 import {
   AiFillLike,
   AiFillDislike,
-  AiFillCalendar,
-  AiFillClockCircle,
-  AiFillGold,
-  AiFillTag,
-  AiFillProduct,
+  AiFillHeart,
+  AiOutlineHeart,
 } from "react-icons/ai";
 import AnimatedBars from "../components/AnimatedBars";
+import fetchService from "../services/fetchService";
 
 const User = () => {
   const { roomCode } = useParams();
-  const { songs, handleVote, addSong } = useRoom(roomCode);
+  const { songs, handleVote, addSong, isFavorite, setIsFavorite } =
+    useRoom(roomCode);
   const { currentSong } = useAudioPlayer();
   const [open, setOpen] = useState(false);
 
@@ -27,6 +26,20 @@ const User = () => {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
+  const addToFavorites = () => {
+    setIsFavorite(!isFavorite);
+    const url = `/api/room/${roomCode}/favorite`;
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    };
+
+    fetchService(url, options);
+  };
+
   return (
     <div className="min-h-screen text-gray-800 p-6">
       <div className="max-w-4xl mx-auto">
@@ -34,6 +47,18 @@ const User = () => {
         <header className="flex items-center justify-center mb-8">
           <h1 className="text-2xl font-bold">Room</h1>
         </header>
+
+        <button
+      
+      onClick={addToFavorites}
+      className={`absolute top-4 right-4 flex items-center justify-center bg-white p-2 rounded-full shadow-lg ${isFavorite && "animation-pulse"}`}
+    >
+    {isFavorite ? (
+      <AiFillHeart className={`h-8 w-8 text-red-500`} />
+    ) : (
+      <AiOutlineHeart className={`h-8 w-8 text-red-500`} />
+    )}
+    </button>
 
         {/* Current Song (Music Player) */}
         <div className="rounded-lg mb-8">
@@ -77,7 +102,7 @@ const User = () => {
               </div>
             </div>
           ) : (
-            <p>No song playing currently.</p>
+            <p className="text-gray-500">No song playing currently.</p>
           )}
         </div>
 
