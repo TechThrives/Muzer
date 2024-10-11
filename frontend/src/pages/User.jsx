@@ -49,16 +49,17 @@ const User = () => {
         </header>
 
         <button
-      
-      onClick={addToFavorites}
-      className={`absolute top-4 right-4 flex items-center justify-center bg-white p-2 rounded-full shadow-lg ${isFavorite && "animation-pulse"}`}
-    >
-    {isFavorite ? (
-      <AiFillHeart className={`h-8 w-8 text-red-500`} />
-    ) : (
-      <AiOutlineHeart className={`h-8 w-8 text-red-500`} />
-    )}
-    </button>
+          onClick={addToFavorites}
+          className={`absolute top-4 right-4 flex items-center justify-center bg-white p-2 rounded-full shadow-lg ${
+            isFavorite && "animation-pulse"
+          }`}
+        >
+          {isFavorite ? (
+            <AiFillHeart className={`h-8 w-8 text-red-500`} />
+          ) : (
+            <AiOutlineHeart className={`h-8 w-8 text-red-500`} />
+          )}
+        </button>
 
         {/* Current Song (Music Player) */}
         <div className="rounded-lg mb-8">

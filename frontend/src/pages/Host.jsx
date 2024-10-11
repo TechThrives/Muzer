@@ -1,12 +1,14 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import useRoom from "../hooks/useRoom";
 import AudioPlayer from "../components/audioPlayer/AudioPlayer";
 import { useAudioPlayer } from "../context/AudioPlayerContext";
 import { BsMusicNoteBeamed } from "react-icons/bs";
+import RoomHeader from "../components/room/RoomHeader";
 
 const Host = () => {
   const { roomCode } = useParams();
-  const { songs } = useRoom(roomCode);
+  const { songs, roomData } = useRoom(roomCode);
   const { currentSong } = useAudioPlayer();
 
   const durationToTime = (duration) => {
@@ -18,17 +20,13 @@ const Host = () => {
   return (
     <div className="min-h-screen text-gray-800 p-6">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <header className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold">Host Room</h1>
-          <button className="text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded">
-            End Room
-          </button>
-        </header>
 
+        {/* Header */}
+       {<RoomHeader name={roomData.name} />}
+       
         {/* Current Song (Music Player) */}
         <div className="rounded-lg mb-8">
-        <h2 className="text-xl mb-4">Now Playing</h2>
+          <h2 className="text-xl mb-4">Now Playing</h2>
           {currentSong ? (
             <AudioPlayer />
           ) : (
@@ -79,10 +77,10 @@ const Host = () => {
                   </div>
                 </div>
                 {/* Vote Info */}
-                  <div className="mt-2 text-center text-md font-semibold">
-                    <span className="block">{song.voteCount}</span>
-                    <p className="text-xs">Votes</p>
-                  </div>
+                <div className="mt-2 text-center text-md font-semibold">
+                  <span className="block">{song.voteCount}</span>
+                  <p className="text-xs">Votes</p>
+                </div>
               </li>
             ))}
           </ul>

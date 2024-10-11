@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import fetchService from "../services/fetchService";
 import Host from "./Host";
 import User from "./User";
+import Loader from "../components/Loader";
 
 const Room = () => {
   const { roomCode } = useParams();
@@ -24,7 +25,7 @@ const Room = () => {
   }, [roomCode]);
 
   if (isHost === null) {
-    return <div>Loading...</div>;
+    return <Loader className="h-screen"/>;
   }
 
   return isHost ? <Host /> : <User />;

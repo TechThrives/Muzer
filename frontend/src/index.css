@@ -165,42 +165,41 @@
 }
 
 .animation-bars {
-    animation: bars 1.2s ease-in-out infinite;
+  animation: bars 1.2s ease-in-out infinite;
+}
+
+@keyframes bars {
+  58% {
+    height: 50%;
   }
-  
-  @keyframes bars {
-    58% {
-      height: 50%;
-    }
-    100% {
-      height: 100%;
-    }
+  100% {
+    height: 100%;
   }
-  
-  .animation-delay-0 {
-    animation-delay: 0s;
-  }
-  
-  .animation-delay-1 {
-    animation-delay: 0.3s;
-  }
-  
-  .animation-delay-2 {
-    animation-delay: 0.6s;
-  }
-  
-  .animation-delay-3 {
-    animation-delay: 0.9s;
-  }
-  
-  .animation-delay-4 {
-    animation-delay: 0.12s;
-  }
-  
-  .animation-delay-5 {
-    animation-delay: 0.15s;
-  }
-  
+}
+
+.animation-delay-0 {
+  animation-delay: 0s;
+}
+
+.animation-delay-1 {
+  animation-delay: 0.3s;
+}
+
+.animation-delay-2 {
+  animation-delay: 0.6s;
+}
+
+.animation-delay-3 {
+  animation-delay: 0.9s;
+}
+
+.animation-delay-4 {
+  animation-delay: 0.12s;
+}
+
+.animation-delay-5 {
+  animation-delay: 0.15s;
+}
 
 .animation-pulse {
   animation: pulse 1s ease-in-out infinite;
@@ -220,7 +219,7 @@
 }
 
 .animation-spin {
-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
@@ -229,5 +228,63 @@ animation: spin 2s linear infinite;
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Loader */
+
+#ld {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+#ld div {
+  height: 20px;
+  width: 5px;
+  background: #fe4a49;
+  margin: 3px;
+  border-radius: 25px;
+}
+#ld div:nth-child(1) {
+  animation: ld 1s ease-in-out infinite 0s;
+}
+#ld div:nth-child(2) {
+  animation: ld 1s ease-in-out infinite 0.1s;
+}
+#ld div:nth-child(3) {
+  animation: ld 1s ease-in-out infinite 0.2s;
+}
+#ld div:nth-child(4) {
+  animation: ld 1s ease-in-out infinite 0.3s;
+}
+#ld div:nth-child(5) {
+  animation: ld 1s ease-in-out infinite 0.4s;
+}
+#ld div:nth-child(6) {
+  animation: ld 1s ease-in-out infinite 0.5s;
+}
+#ld div:nth-child(7) {
+  animation: ld 1s ease-in-out infinite 0.6s;
+}
+
+@keyframes ld {
+  0% {
+    transform: scaleY(1);
+    background: #fed766;
+  }
+  25% {
+    background: #009fb7;
+  }
+  50% {
+    transform: scaleY(2);
+    background: #59cd90;
+  }
+  75% {
+    background: #fe4a49;
+  }
+  100% {
+    transform: scaleY(1);
+    background: #d91e36;
   }
 }

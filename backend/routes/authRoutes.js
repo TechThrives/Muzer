@@ -8,9 +8,9 @@ const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post("/register", async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
 
-  if (!email || !password) {
+  if (!name || !email || !password) {
     return res.status(400).json({ message: "Please fill all fields" });
   }
 
@@ -29,6 +29,7 @@ router.post("/register", async (req, res) => {
 
     await prisma.user.create({
       data: {
+        name,
         email,
         password: hashedPassword,
       },

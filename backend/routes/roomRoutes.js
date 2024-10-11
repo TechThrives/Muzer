@@ -7,6 +7,18 @@ router.post("/create", async (req, res) => {
   // generate random string of length 6
   const code = Math.random().toString(36).slice(-6);
   try {
+    const existingRoom = await prisma.room.findMany({
+      where: {
+        hostId: req.user.id,
+      },
+    });
+
+    if (existingRoom.length > 2) {
+      return res
+        .status(400)
+        .json({ message: `You already hosted ${existingRoom.length} rooms` });
+    }
+
     let room = await prisma.room.findUnique({
       where: {
         code: code,
@@ -28,21 +40,26 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/myRooms", async (req, res) => {
   try {
-    const hostedRooms = await prisma.room.findMany(
-      {
-        where: {
-          hostId: req.user.id,
+    const hostedRooms = await prisma.room.findMany({
+      where: {
+        hostId: req.user.id,
+      },
+      include: {
+        favoritedBy: true,
+        currentSong: true,
+        host: {
+          select: {
+            email: true,
+            name: true,
+          },
         },
-        include: {
-          favoritedBy: true,
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-      }
-    );
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
 
     const favoriteRooms = await prisma.room.findMany({
       where: {
@@ -54,14 +71,51 @@ router.get("/", async (req, res) => {
       },
       include: {
         currentSong: true,
+        host: {
+          select: {
+            email: true,
+            name: true,
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
       },
     });
 
+    return res.json({ hostedRooms, favoriteRooms });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
 
-    return res.json({hostedRooms, favoriteRooms});
+router.post("/:roomCode/name", async (req, res) => {
+  const { roomCode } = req.params;
+  const { name } = req.body;
+  try {
+    if (!name) {
+      return res.status(400).json({ message: "Name is required" });
+    }
+
+    const room = await prisma.room.findUnique({
+      where: {
+        code: roomCode,
+      },
+    });
+    if (!room) {
+      return res.status(404).json({ message: "Room not found" });
+    }
+
+    await prisma.room.update({
+      where: {
+        code: roomCode,
+      },
+      data: {
+        name: name,
+      },
+    });
+    return res.json({ message: "Room name updated" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });
@@ -102,7 +156,7 @@ router.get("/:roomCode", async (req, res) => {
       include: {
         songs: {
           orderBy: {
-            voteCount: 'desc',
+            voteCount: "desc",
           },
         },
         currentSong: true,
@@ -114,7 +168,9 @@ router.get("/:roomCode", async (req, res) => {
       return res.status(404).json({ message: "Room not found" });
     }
 
-    const isFavorite = room.favoritedBy.some((favUser) => favUser.id === req.user.id);
+    const isFavorite = room.favoritedBy.some(
+      (favUser) => favUser.id === req.user.id
+    );
 
     return res.json({ ...room, isFavorite });
   } catch (error) {
@@ -123,9 +179,7 @@ router.get("/:roomCode", async (req, res) => {
   }
 });
 
-
 router.post("/:roomCode/favorite", async (req, res) => {
-  
   const { roomCode } = req.params;
   try {
     const room = await prisma.room.findUnique({

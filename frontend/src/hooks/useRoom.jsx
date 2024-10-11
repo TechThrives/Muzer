@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSocket } from "../context/SocketContext";
 import { useAudioPlayer } from "../context/AudioPlayerContext";
 import { useAuth } from "../context/AuthContext";
@@ -8,6 +8,7 @@ const useRoom = (roomCode) => {
   const { onEvent, emitEvent } = useSocket();
   const { user } = useAuth();
   const [songs, setSongs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [roomData, setRoomData] = useState({});
   const [isFavorite, setIsFavorite] = useState(false);
   const { setCurrentSong, setIsPlaying, setTimeProgress } = useAudioPlayer();
@@ -45,6 +46,7 @@ const getRoomData = async () => {
       setRoomData(data);
       setIsFavorite(data.isFavorite);
     }
+    setIsLoading(false);
   }
 
 
@@ -70,7 +72,7 @@ const getRoomData = async () => {
     emitEvent("addSong", { roomCode, songData });
   };
 
-  return { songs, handleVote, addSong, roomData, isFavorite , setIsFavorite};
+  return {isLoading, songs, handleVote, addSong, roomData, isFavorite , setIsFavorite};
 };
 
 export default useRoom;

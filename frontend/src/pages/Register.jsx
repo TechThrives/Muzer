@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import fetchService from "../services/fetchService";
 import { useAuth } from "../context/AuthContext";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const Register = () => {
   const { isAuthenticated } = useAuth();
@@ -10,7 +10,6 @@ const Register = () => {
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setUserRegister({ ...userRegister, [e.target.name]: e.target.value });
@@ -46,6 +45,18 @@ const Register = () => {
             Muzer
           </h1>
           <form onSubmit={handleRegister} class="space-y-3">
+          <div>
+              <input
+                id="name"
+                class="border p-2 shadow-md placeholder:text-base border-gray-300 rounded-lg w-full ease-in-out duration-300"
+                type="text"
+                placeholder="Name"
+                name="name"
+                value={userRegister.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
             <div>
               <input
                 id="email"

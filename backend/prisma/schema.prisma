@@ -14,17 +14,19 @@ datasource db {
 }
 
 model User {
-  id             String   @id @default(uuid())
-  email          String   @unique
-  password       String   // Store hashed passwords
-  hostedRooms    Room[]   // Hosted rooms
-  favoriteRooms Room[]   @relation("FavoriteRooms") // Favorited rooms
-  votes          Vote[]
-  songs          Song[]   // Songs added by the user 
+  id            String @id @default(uuid())
+  name          String
+  email         String @unique
+  password      String // Store hashed passwords
+  hostedRooms   Room[] // Hosted rooms
+  favoriteRooms Room[] @relation("FavoriteRooms") // Favorited rooms
+  votes         Vote[]
+  songs         Song[] // Songs added by the user 
 }
 
 model Room {
   id            String   @id @default(uuid())
+  name          String?
   code          String   @unique // Unique room code
   hostId        String
   host          User     @relation(fields: [hostId], references: [id], onDelete: Cascade)

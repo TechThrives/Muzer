@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import Loader from "../components/Loader";
 
 const AuthContext = createContext(null);
 
@@ -37,13 +38,7 @@ export const AuthProvider = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="loader">
-        <div id="loader">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div>
+      <Loader className="h-screen" />
     );
   }
 
