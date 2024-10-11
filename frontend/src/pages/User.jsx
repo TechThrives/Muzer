@@ -15,7 +15,7 @@ import fetchService from "../services/fetchService";
 
 const User = () => {
   const { roomCode } = useParams();
-  const { songs, handleVote, addSong, isFavorite, setIsFavorite } =
+  const { songs, roomData, handleVote, addSong, isFavorite, setIsFavorite } =
     useRoom(roomCode);
   const { currentSong } = useAudioPlayer();
   const [open, setOpen] = useState(false);
@@ -45,7 +45,7 @@ const User = () => {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <header className="flex items-center justify-center mb-8">
-          <h1 className="text-2xl font-bold">Room</h1>
+          <h1 className="text-2xl font-bold">{roomData.name? roomData.name : "Unnamed Room"}</h1>
         </header>
 
         <button

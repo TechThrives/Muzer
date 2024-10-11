@@ -271,20 +271,41 @@
 @keyframes ld {
   0% {
     transform: scaleY(1);
-    background: #fed766;
+    background: #f53ad6;
   }
   25% {
-    background: #009fb7;
+    background: #0f7ee6;
   }
   50% {
     transform: scaleY(2);
-    background: #59cd90;
+    background: #2c5bf5;
   }
   75% {
-    background: #fe4a49;
+    background: #fe49f5;
   }
   100% {
     transform: scaleY(1);
-    background: #d91e36;
+    background: #ba22f7;
   }
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(15deg, #2c5bf5, #ba22f7);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
