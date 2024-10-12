@@ -2,7 +2,6 @@ import prisma from "../config/prismaConfig.js";
 import bcrypt from "bcrypt";
 
 const roomHandler = (io, socket) => {
-
   const joinRoom = async ({ roomCode }) => {
     try {
       const room = await prisma.room.findUnique({
@@ -12,7 +11,7 @@ const roomHandler = (io, socket) => {
         include: {
           songs: {
             orderBy: {
-              voteCount: 'desc',
+              voteCount: "desc",
             },
           },
           currentSong: true,
@@ -41,7 +40,7 @@ const roomHandler = (io, socket) => {
         include: {
           songs: {
             orderBy: {
-              voteCount: 'desc',
+              voteCount: "desc",
             },
           },
           currentSong: true,
@@ -85,18 +84,8 @@ const roomHandler = (io, socket) => {
         },
       });
 
-      // Set the current song if it's the first song
-      if (room.songs.length === 0 && room.currentSong === null) {
-        await prisma.room.update({
-          where: {
-            id: room.id,
-          },
-          data: {
-            currentSongId: song.id,
-          },
-        });
-      } else {
-        // Connect the new song to the room
+      // Connect the new song to the room
+      if (room.currentSong != null) {
         await prisma.room.update({
           where: {
             id: room.id,
@@ -109,25 +98,52 @@ const roomHandler = (io, socket) => {
             },
           },
         });
-      }
 
-      // Fetch updated room data after the song addition
-      const roomData = await prisma.room.findUnique({
-        where: {
-          code: roomCode,
-        },
-        include: {
-          songs: {
-            orderBy: {
-              voteCount: 'desc',
+        // Fetch updated room data after the song addition
+        const roomData = await prisma.room.findUnique({
+          where: {
+            code: roomCode,
+          },
+          include: {
+            songs: {
+              orderBy: {
+                voteCount: "desc",
+              },
             },
           },
-          currentSong: true,
-        },
-      });
+        });
 
-      // Emit the updated room data to all clients in the room
-      io.in(room.id).emit("roomData", roomData);
+        io.in(room.id).emit("songData", roomData.songs);
+      } else {
+        // Set the current song of the room if there is no current song
+        await prisma.room.update({
+          where: {
+            id: room.id,
+          },
+          data: {
+            currentSongId: song.id,
+          },
+        });
+
+        // Fetch updated room data after the song addition
+        const roomData = await prisma.room.findUnique({
+          where: {
+            code: roomCode,
+          },
+          include: {
+            songs: {
+              orderBy: {
+                voteCount: "desc",
+              },
+            },
+            currentSong: true,
+          },
+        });
+
+        io.in(room.id).emit("roomData", roomData);
+      }
+
+      // Emit success message
       socket.emit("success", { message: "Song added successfully" });
     } catch (error) {
       console.error("Error adding song:", error);
@@ -208,14 +224,13 @@ const roomHandler = (io, socket) => {
         include: {
           songs: {
             orderBy: {
-              voteCount: 'desc',
+              voteCount: "desc",
             },
           },
-          currentSong: true,
         },
       });
 
-      io.in(roomData.id).emit("roomData", roomData);
+      io.in(roomData.id).emit("songData", roomData.songs);
     } catch (error) {
       console.error("Error voting song:", error);
       socket.emit("error", { message: "Could not vote for the song." });

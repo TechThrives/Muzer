@@ -26,9 +26,17 @@ const useRoom = (roomCode) => {
       }
     });
 
+    const cleanupSongData = onEvent("songData", (songData) => {
+      setSongs(songData);
+    });
+
     return () => {
       if (cleanupRoomData) {
         cleanupRoomData();
+      }
+
+      if (cleanupSongData) {
+        cleanupSongData();
       }
     };
   }, [roomCode, onEvent]);
