@@ -33,8 +33,8 @@ const AddSong = ({ open, setOpen, addSong }) => {
 
   return (
     <BottomSheet setOpen={setOpen} open={open} title="Add Song">
-      <div class="bg-white shadow-md  relative rounded-xl flex mb-4">
-        <span class="w-auto flex justify-end  items-center text-gray-500 p-2">
+      <div className="bg-white shadow-md  relative rounded-xl flex mb-4">
+        <span className="w-auto flex justify-end  items-center text-gray-500 p-2">
           <BsSearch />
         </span>
         <input
@@ -42,13 +42,13 @@ const AddSong = ({ open, setOpen, addSong }) => {
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          class="outline-none w-full rounded-xl p-2"
+          className="outline-none w-full rounded-xl p-2"
           type="text"
           placeholder="What are you looking for?"
         />
         <button
           onClick={handleSearch}
-          class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-purple-500 hover:to-blue-500 transition duration-300 ease-in-out rounded-xl text-white text-md p-2 m-2"
+          className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-purple-500 hover:to-blue-500 transition duration-300 ease-in-out rounded-xl text-white text-md p-2 m-2"
         >
           <BsSearch />
         </button>

@@ -36,20 +36,20 @@ const Login = () => {
     <Navigate to="/" />
   ) : (
     <div
-    class="flex items-center justify-center min-w-screen min-h-screen"
+    className="flex items-center justify-center min-w-screen min-h-screen"
   >
-    <div class="grid gap-8">
+    <div className="grid gap-8">
         <div
-          class="border-[20px] border-transparent rounded-[20px] bg-white md:p-4 sm:p-2 m-2 max-w-sm"
+          className="border-[20px] border-transparent rounded-[20px] bg-white md:p-4 sm:p-2 m-2 max-w-sm"
         >
-          <h1 class="font-bold text-xl text-center mb-6 cursor-default">
+          <h1 className="font-bold text-xl text-center mb-6 cursor-default">
             Muzer
           </h1>
-          <form onSubmit={handleLogin} class="space-y-3">
+          <form onSubmit={handleLogin} className="space-y-3">
             <div>
               <input
                 id="email"
-                class="border p-2 shadow-md placeholder:text-base border-gray-300 rounded-lg w-full ease-in-out duration-300"
+                className="border p-2 shadow-md placeholder:text-base border-gray-300 rounded-lg w-full ease-in-out duration-300"
                 type="email"
                 placeholder="Email"
                 name="email"
@@ -61,7 +61,7 @@ const Login = () => {
             <div>
               <input
                 id="password"
-                class="border p-2 shadow-md placeholder:text-base border-gray-300 rounded-lg w-full ease-in-out duration-300"
+                className="border p-2 shadow-md placeholder:text-base border-gray-300 rounded-lg w-full ease-in-out duration-300"
                 type="password"
                 placeholder="Password"
                 name="password"
@@ -71,21 +71,21 @@ const Login = () => {
               />
             </div>
             <button
-              class="bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg mt-6 p-2 text-white rounded-lg w-full hover:scale-105 hover:from-purple-500 hover:to-blue-500 transition duration-300 ease-in-out"
+              className="bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg mt-6 p-2 text-white rounded-lg w-full hover:scale-105 hover:from-purple-500 hover:to-blue-500 transition duration-300 ease-in-out"
               type="submit"
             >
               Login
             </button>
           </form>
-          <div class="flex flex-col mt-4 items-center justify-center text-sm">
+          <div className="flex flex-col mt-4 items-center justify-center text-sm">
             <h3>
-              <span class="cursor-default">Don't have an account?</span>
+              <span className="cursor-default">Don't have an account?</span>
               <a
-                class="group text-blue-400 transition-all duration-100 ease-in-out"
+                className="group text-blue-400 transition-all duration-100 ease-in-out"
                 href="/register"
               >
                 <span
-                  class="bg-left-bottom ml-1 bg-gradient-to-r from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
+                  className="bg-left-bottom ml-1 bg-gradient-to-r from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
                 >
                   Register
                 </span>
@@ -94,27 +94,27 @@ const Login = () => {
           </div>
 
           <div
-            class="text-gray-500 flex text-center flex-col mt-4 items-center text-sm"
+            className="text-gray-500 flex text-center flex-col mt-4 items-center text-sm"
           >
-            <p class="cursor-default">
+            <p className="cursor-default">
               By signing in, you agree to our {" "}
               <a
-                class="group text-blue-400 transition-all duration-100 ease-in-out"
+                className="group text-blue-400 transition-all duration-100 ease-in-out"
                 href="#"
               >
                 <span
-                  class="cursor-pointer bg-left-bottom bg-gradient-to-r from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
+                  className="cursor-pointer bg-left-bottom bg-gradient-to-r from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
                 >
                   Terms{" "}
                 </span>
               </a>
               and{" "}
               <a
-                class="group text-blue-400 transition-all duration-100 ease-in-out"
+                className="group text-blue-400 transition-all duration-100 ease-in-out"
                 href="#"
               >
                 <span
-                  class="cursor-pointer bg-left-bottom bg-gradient-to-r from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
+                  className="cursor-pointer bg-left-bottom bg-gradient-to-r from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
                 >
                   Privacy Policy
                 </span>

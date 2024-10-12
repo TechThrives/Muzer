@@ -176,10 +176,10 @@ const User = () => {
           </ul>
         </div>
 
-        <div class="fixed bottom-4 right-4 floating-btn">
+        <div className="fixed bottom-4 right-4 floating-btn">
           <button
             onClick={() => setOpen(true)}
-            class="bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg mt-6 p-2 text-white rounded-lg w-full hover:scale-105 hover:from-purple-500 hover:to-blue-500 transition duration-300 ease-in-out"
+            className="bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg mt-6 p-2 text-white rounded-lg w-full hover:scale-105 hover:from-purple-500 hover:to-blue-500 transition duration-300 ease-in-out"
           >
             <BsPlus className="w-6 h-6" />
           </button>

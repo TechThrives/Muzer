@@ -28,7 +28,7 @@ const Home = () => {
     <div>
       <div className="container mx-auto p-4 space-y-8 mb-6">
         <div className="flex justify-between">
-          <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-600">
+          <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-600">
             Welcome to Muzer
           </h1>
           <button className="" onClick={handleLogout}>
